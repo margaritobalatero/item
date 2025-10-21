@@ -1,0 +1,25 @@
+{
+  "name": "remix-mongo-auth-crud",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+  "dev": "remix dev",
+  "build": "remix build",
+  "start": "node -r dotenv/config node_modules/@remix-run/serve/dist/cli.js build/index.js"
+},
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^17.2.3",
+    "mongoose": "^7.0.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "remix": "^2.0.0"
+  },
+  "devDependencies": {
+    "@remix-run/dev": "^2.0.0",
+    "@remix-run/node": "^2.0.0",
+    "@remix-run/react": "^2.0.0",
+    "@remix-run/serve": "^2.17.1"
+  }
+}
