@@ -1,6 +1,9 @@
 // app/utils/auth.server.js
 import bcrypt from "bcryptjs";
-import mongoose, { connectDB } from "./db.server.js";
+import mongoose, { connectDB } from "../utils/db.server.js";
+
+// make sure DB is connected before queries
+await connectDB();
 
 // Hash password
 export async function hashPassword(password) {
@@ -13,18 +16,8 @@ export async function verifyPassword(password, hashedPassword) {
   return bcrypt.compare(password, hashedPassword);
 }
 
-// User schema
-const userSchema = new mongoose.Schema({
-  username: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-});
-
-const User = mongoose.models.User || mongoose.model("User", userSchema);
-
-// Register a new user
+// Register user
 export async function registerUser({ username, password }) {
-  await connectDB(); // ensure DB connection
-
   const existing = await User.findOne({ username });
   if (existing) throw new Error("Username already exists");
 
@@ -36,8 +29,6 @@ export async function registerUser({ username, password }) {
 
 // Login user
 export async function loginUser({ username, password }) {
-  await connectDB(); // ensure DB connection
-
   const user = await User.findOne({ username });
   if (!user) throw new Error("Invalid username or password");
 
@@ -46,3 +37,9 @@ export async function loginUser({ username, password }) {
 
   return user;
 }
+
+// then define your schema and model
+const userSchema = new mongoose.Schema({ username: String, password: String });
+
+
+const User = mongoose.models.User || mongoose.model("User", userSchema);

@@ -32,5 +32,19 @@ export async function getItemById(id) {
 }
 
 export async function updateItem(id, data) {
-  return await Item.findByIdAndUpdate(id, data, { new: true });
+  const { item, description, quantity, unit, unitPrice, imageUrl } = data;
+
+  return await Item.findByIdAndUpdate(
+    id,
+    {
+      item,
+      description,
+      quantity,
+      unit,
+      unitPrice,
+      imageUrl,
+    },
+    { new: true }
+  );
 }
+

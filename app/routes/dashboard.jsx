@@ -29,7 +29,7 @@ export async function action({ request }) {
 
   const data = {
     item: formData.get("item"),
-    itemDescription: formData.get("itemDescription"),
+    description: formData.get("description"),
     quantity: Number(formData.get("quantity")),
     unit: formData.get("unit"),
     unitPrice: Number(formData.get("unitPrice")),
@@ -56,7 +56,7 @@ export default function Dashboard() {
   const [editItem, setEditItem] = useState(null);
   const [formData, setFormData] = useState({
     item: "",
-    itemDescription: "",
+    description: "",
     quantity: "",
     unit: "",
     unitPrice: "",
@@ -69,7 +69,7 @@ export default function Dashboard() {
     if (editItem) {
       setFormData({
         item: editItem.item,
-        itemDescription: editItem.itemDescription,
+        description: editItem.description,
         quantity: editItem.quantity,
         unit: editItem.unit,
         unitPrice: editItem.unitPrice,
@@ -79,7 +79,7 @@ export default function Dashboard() {
     } else {
       setFormData({
         item: "",
-        itemDescription: "",
+        description: "",
         quantity: "",
         unit: "",
         unitPrice: "",
@@ -115,7 +115,7 @@ const openDetailWindow = (item) => {
       </head>
       <body class="p-4">
         <h3 class="text-primary mb-3">${item.item}</h3>
-        <p><strong>Description:</strong> ${item.itemDescription}</p>
+        <p><strong>Description:</strong> ${item.description}</p>
         <p><strong>Quantity:</strong> ${item.quantity}</p>
         <p><strong>Unit:</strong> ${item.unit}</p>
         <p><strong>Unit Price:</strong> ${formatPeso(item.unitPrice)}</p>
@@ -219,12 +219,12 @@ const openDetailWindow = (item) => {
                 </div>
                 <div className="col-md-3">
                   <input
-                    name="itemDescription"
+                    name="description"
                     placeholder="Description"
                     className="form-control"
-                    value={formData.itemDescription}
+                    value={formData.description}
                     onChange={(e) =>
-                      setFormData({ ...formData, itemDescription: e.target.value })
+                      setFormData({ ...formData, description: e.target.value })
                     }
                   />
                 </div>
@@ -319,7 +319,7 @@ const openDetailWindow = (item) => {
                 {items.map((i) => (
                   <tr key={i._id}>
                     <td>{i.item}</td>
-                    <td>{i.itemDescription}</td>
+                    <td>{i.description}</td>
                     <td>{i.quantity}</td>
                     <td>{i.unit}</td>
                     <td>{formatPeso(i.unitPrice)}</td>

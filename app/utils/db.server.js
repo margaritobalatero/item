@@ -16,8 +16,8 @@ async function connectDB() {
     conn = await mongoose.connect(uri, {
       // Mongoose options
       useNewUrlParser: true,
-      useUnifiedTopology: true,
-      serverSelectionTimeoutMS: 30000, // wait up to 30 seconds
+  useUnifiedTopology: true,
+  serverSelectionTimeoutMS: 5000, // 5s timeout
     });
 
     mongoose.connection.on("error", err => {
