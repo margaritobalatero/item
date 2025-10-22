@@ -1,47 +1,60 @@
 // app/session.server.js
-import { createCookieSessionStorage, redirect } from "@remix-run/node";
-
-const sessionSecret = process.env.SESSION_SECRET;
-if (!sessionSecret) throw new Error("SESSION_SECRET must be set");
+import { redirect, json } from "@remix-run/node";
+import { createCookieSessionStorage } from "@remix-run/node";
 
 const storage = createCookieSessionStorage({
   cookie: {
-    name: "user_session",
-    secure: process.env.NODE_ENV === "production",
-    secrets: [sessionSecret],
+    name: "__session",
+    secrets: [process.env.SESSION_SECRET],
     sameSite: "lax",
     path: "/",
-    maxAge: 60 * 60 * 24 * 7,
     httpOnly: true,
+    secure: false, // set true if using HTTPS
+    domain: undefined, // allows localhost and 192.168.x.x both
   },
 });
 
-export async function createUserSession(userId, redirectTo) {
-  const session = await storage.getSession();
-  session.set("userId", userId);
-  return redirect(redirectTo, {
-    headers: { "Set-Cookie": await storage.commitSession(session) },
-  });
-}
-
-export async function getUserSession(request) {
+export function getSession(request) {
   return storage.getSession(request.headers.get("Cookie"));
 }
 
-export async function getUserId(request) {
-  const session = await getUserSession(request);
-  return session.get("userId");
+export function commitSession(session) {
+  return storage.commitSession(session);
 }
 
+export function destroySession(session) {
+  return storage.destroySession(session);
+}
+
+// ✅ Create a new session after login
+export async function createUserSession(userId, redirectTo = "/dashboard") {
+  const session = await storage.getSession();
+  session.set("userId", userId);
+  return redirect(redirectTo, {
+    headers: {
+      "Set-Cookie": await storage.commitSession(session),
+    },
+  });
+}
+
+// ✅ Require user session (protect routes)
 export async function requireUserSession(request) {
-  const userId = await getUserId(request);
-  if (!userId) throw redirect("/login");
+  const session = await getSession(request);
+  const userId = session.get("userId");
+
+  if (!userId) {
+    throw redirect("/login");
+  }
+
   return userId;
 }
 
+// ✅ Optional: for logout route
 export async function destroyUserSession(request) {
-  const session = await getUserSession(request);
+  const session = await getSession(request);
   return redirect("/login", {
-    headers: { "Set-Cookie": await storage.destroySession(session) },
+    headers: {
+      "Set-Cookie": await destroySession(session),
+    },
   });
 }
