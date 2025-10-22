@@ -228,7 +228,7 @@ const openDetailWindow = (item) => {
                     }
                   />
                 </div>
-                <div className="col-md-1">
+                <div className="col-md-3">
                   <input
                     name="quantity"
                     type="number"
@@ -241,7 +241,7 @@ const openDetailWindow = (item) => {
                     }
                   />
                 </div>
-                <div className="col-md-1">
+                <div className="col-md-3">
                   <input
                     name="unit"
                     placeholder="Unit"
@@ -252,7 +252,7 @@ const openDetailWindow = (item) => {
                     }
                   />
                 </div>
-                <div className="col-md-2">
+                <div className="col-md-3">
                   <input
                     name="unitPrice"
                     type="number"
@@ -265,7 +265,7 @@ const openDetailWindow = (item) => {
                     }
                   />
                 </div>
-                <div className="col-md-2">
+                <div className="col-md-8">
                   <input
                     name="imageUrl"
                     placeholder="Image URL"
