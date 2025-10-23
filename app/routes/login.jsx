@@ -16,24 +16,61 @@ export async function action({ request }) {
   }
 }
 
+// ✅ Load Bootstrap from CDN
+export function links() {
+  return [
+    {
+      rel: "stylesheet",
+      href: "https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css",
+    },
+  ];
+}
+
 export default function Login() {
   const actionData = useActionData();
 
   return (
-    <div style={{ width: "300px", margin: "100px auto" }}>
-      <h2>Login</h2>
-      <Form method="post">
-        <div>
-          <label>Username:</label>
-          <input type="text" name="username" required />
-        </div>
-        <div>
-          <label>Password:</label>
-          <input type="password" name="password" required />
-        </div>
-        <button type="submit">Login</button>
-      </Form>
-      {actionData?.error && <p style={{ color: "red" }}>{actionData.error}</p>}
+    <div className="d-flex align-items-center justify-content-center vh-100 bg-light">
+      <div className="card shadow p-4" style={{ width: "360px" }}>
+        <h2 className="text-center mb-4 text-primary">Login</h2>
+        {actionData?.error && (
+          <div className="alert alert-danger text-center">{actionData.error}</div>
+        )}
+
+        <Form method="post" className="d-grid gap-3">
+          <div>
+            <label className="form-label fw-semibold">Username:</label>
+            <input
+              type="text"
+              name="username"
+              required
+              className="form-control"
+              placeholder="Enter your username"
+            />
+          </div>
+
+          <div>
+            <label className="form-label fw-semibold">Password:</label>
+            <input
+              type="password"
+              name="password"
+              required
+              className="form-control"
+              placeholder="Enter your password"
+            />
+          </div>
+
+          <button type="submit" className="btn btn-primary w-100 fw-semibold">
+            Login
+          </button>
+
+          <div className="text-center mt-3">
+            <a href="/signup" className="text-decoration-none text-primary">
+              Don’t have an account? Sign up
+            </a>
+          </div>
+        </Form>
+      </div>
     </div>
   );
 }
